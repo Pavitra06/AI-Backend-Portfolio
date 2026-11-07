@@ -11,7 +11,11 @@ class GreetingRequest(BaseModel):
     )
 
 
-@router.post("/greet")
+class GreetingResponse(BaseModel):
+    message: str
+
+
+@router.post("/greet", response_model=GreetingResponse)
 def greet_user(request: GreetingRequest):
     return {
         "message": f"Hello, {request.name}!"

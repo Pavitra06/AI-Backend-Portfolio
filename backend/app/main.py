@@ -1,12 +1,14 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 app = FastAPI()
 
 
 class UserRequest(BaseModel):
-    name: str
-
+    name: str = Field(
+        min_length=2,
+        max_length=30
+    )
 
 @app.get("/")
 def home():

@@ -1,28 +1,12 @@
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from backend.app.routers import users, greetings
 
 app = FastAPI()
 
+app.include_router(users.router)
+app.include_router(greetings.router)
 
-class UserRequest(BaseModel):
-    name: str = Field(
-        min_length=2,
-        max_length=30
-    )
 
 @app.get("/")
 def home():
     return {"message": "AI Backend Portfolio is running!"}
-
-
-@app.get("/users/{user_id}")
-def get_user(user_id: int, role: str = "user"):
-    return {
-        "user_id": user_id,
-        "role": role
-    }
-
-
-@app.post("/greet")
-def greet_user(user: UserRequest):
-    return {"message": f"Hello, {user.name}!"}
